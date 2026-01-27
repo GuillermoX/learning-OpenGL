@@ -11,13 +11,12 @@ Shared code between all projects (shaders, glad, utilities).
 **[Creating a Window](https://learnopengl.com/Getting-started/Hello-Window)**  
 Basic GLFW setup and OpenGL window creation.
 
-<!-- ![HelloWindow Screenshot](IMAGE_URL) -->
 
 ### lopengl_HelloTriangle
 **[Hello Triangle](https://learnopengl.com/Getting-started/Hello-Triangle)**  
 First triangle using VAO, VBO and basic shaders.
 
-<!-- ![HelloTriangle Screenshot](IMAGE_URL) -->
+![HelloTriangle Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/HelloTriangle.png)
 
 ### lopengl_HelloTriangle_ex
 **[Hello Triangle - Exercises](https://learnopengl.com/Getting-started/Hello-Triangle)**  
@@ -29,19 +28,19 @@ Proposed exercises from the Hello Triangle chapter.
 **[Hello Triangle](https://learnopengl.com/Getting-started/Hello-Triangle)**  
 Rectangle rendering using EBO (Element Buffer Object).
 
-<!-- ![HelloRectangle Screenshot](IMAGE_URL) -->
+![HelloRectangle Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/HelloRectangle.png)
 
 ### lopengl_Shaders
 **[Shaders](https://learnopengl.com/Getting-started/Shaders)**  
 Working with shaders, uniforms and attributes.
 
-<!-- ![Shaders Screenshot](IMAGE_URL) -->
+![Shaders Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/Shaders.png)
 
 ### lopengl_Textures
 **[Textures](https://learnopengl.com/Getting-started/Textures)**  
 Loading and applying textures using stb_image.
 
-<!-- ![Textures Screenshot](IMAGE_URL) -->
+![Textures Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/Textures.png)
 
 ## 🛠️ Building
 
