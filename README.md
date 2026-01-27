@@ -8,12 +8,12 @@ Projects following the tutorials from [learnopengl.com](https://learnopengl.com/
 Shared code between all projects (shaders, glad, utilities).
 
 ### lopengl_HelloWindow
-**[Creating a Window](https://learnopengl.com/Getting-started/Hello-Window)**  
+**(https://learnopengl.com/Getting-started/Hello-Window)**  
 Basic GLFW setup and OpenGL window creation.
 
 
 ### lopengl_HelloTriangle
-**[Hello Triangle](https://learnopengl.com/Getting-started/Hello-Triangle)**  
+**(https://learnopengl.com/Getting-started/Hello-Triangle)**  
 First triangle using VAO, VBO and basic shaders.
 
 ![HelloTriangle Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/HelloTriangle.png)
@@ -25,22 +25,34 @@ Proposed exercises from the Hello Triangle chapter.
 <!-- ![HelloTriangle Exercise Screenshot](IMAGE_URL) -->
 
 ### lopengl_HelloRectangle
-**[Hello Triangle](https://learnopengl.com/Getting-started/Hello-Triangle)**  
+**(https://learnopengl.com/Getting-started/Hello-Triangle)**  
 Rectangle rendering using EBO (Element Buffer Object).
 
 ![HelloRectangle Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/HelloRectangle.png)
 
 ### lopengl_Shaders
-**[Shaders](https://learnopengl.com/Getting-started/Shaders)**  
+**(https://learnopengl.com/Getting-started/Shaders)**  
 Working with shaders, uniforms and attributes.
 
 ![Shaders Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/Shaders.png)
 
 ### lopengl_Textures
-**[Textures](https://learnopengl.com/Getting-started/Textures)**  
+**(https://learnopengl.com/Getting-started/Textures)**  
 Loading and applying textures using stb_image.
 
 ![Textures Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/Textures.png)
+
+### lopengl_Transformations
+**(https://learnopengl.com/Getting-started/Transformations)**  
+Applying transformation matrices to the models.
+
+![Transformations Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/Transformations.png)
+
+### lopengl_CoordinateSystems
+**(https://learnopengl.com/Getting-started/Coordinate-Systems)**  
+Understanding coordinate systems, model, view and projection matrices to achieve 3D illusion.
+
+![CoordinateSystems Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/CoordinateSystems.png)
 
 ## 🛠️ Building
 
