@@ -4,7 +4,8 @@
 #include <iostream>
 #include <cmath>
 
-#include <shader/Shader.hpp>
+#include <custom/Shader.hpp>
+#include <custom/Camera.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -13,12 +14,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-/*#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>*/
+#define W_WIDTH 800
+#define W_HEIGHT 600
 
 //Función callback para redimensionar la pantalla que se usa (e implementa) más adelante
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+//Función callback para capturar el movimiento del ratón
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
+//Función callback para scroll del ratón
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 //Función que encapsula el procesamiento del input de teclado
 void processInput(GLFWwindow* window);
@@ -31,6 +37,51 @@ float tex_interpol = 0.5f;
 
 int s_height, s_width;
 
+//---- CAMERA ----
+//Creación de la Camara
+    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
+
+//Camera values
+/*glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+//Queremos que apunte inicialmente al punto origen 
+glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+//Realmente el vector "direction" apunta al contrario de donde mira la camara realmente
+glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);   
+//Vector que apunte al eje derecho de la camara
+//Usamos eje Y del mundo y dirección de la camara para con el prod cartesiano conseguir
+//eje derecho de la camara
+glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+//Eje arriba de la camara
+glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);*/
+
+//Realmente vamos a usar la siguiente configuración
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+//Vector que apunta DONDE MIRA la camara
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+//Camera rotation angles
+float pitchAngle = 0.0f;
+float yawAngle = -90.0f;
+
+
+float lastX = ((float)W_WIDTH)/2.0f;
+float lastY = ((float)W_HEIGHT)/2.0f;
+
+float fov = 45.0f;
+
+bool firstMouse = true;
+
+
+
+//Se inicializará en el bucle de ejecución;
+glm::mat4 view;
+
+// ---- DELTA TIMES ---
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
 int main()
 {
     // Inicializar GLFW
@@ -39,10 +90,11 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);      //Versión concreta v3.3
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+
     //Crear la ventana
-    GLFWwindow* window = glfwCreateWindow(800, 600, "CoordinateSystems", NULL, NULL);
-    s_height = 600;
-    s_width = 800;
+    GLFWwindow* window = glfwCreateWindow(W_WIDTH, W_HEIGHT, "CoordinateSystems", NULL, NULL);
+    s_height = W_HEIGHT;
+    s_width = W_WIDTH;
     if(window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -79,8 +131,14 @@ int main()
     /*Registrar la función de redimensionamiento para que GLFW la llame cada vez
       que se redimensiona la ventana */
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    
 
+    //Capturar el movimiento del ratón
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouse_callback);
 
+    //Capturar scroll del raton
+    glfwSetScrollCallback(window, scroll_callback);
 
 
 //---- CREACIÓN DE LOS DATOS Y GUARDADO EN VRAM (RAM DE GPU) -------
@@ -328,6 +386,8 @@ int main()
     };
 
 
+
+
 //Se podrían configurar otros VAO con más VBO y configuraciones de atributos ya que es
 //en el momento de renderizar donde especificamos que VAO queremos pintar
 
@@ -336,12 +396,16 @@ int main()
     Shader shaderProgram("../assets/shaders/shader.vert", "../assets/shaders/shader.frag");
 
 
+
 //---- BUCLE DE EJECUCIÓN ----
     glEnable(GL_DEPTH_TEST);    //Asegurar que se usa Depth Testing
 
     //Entrar en el bucle de renderizado (cada iteración del bucle es un frame)
     while(!glfwWindowShouldClose(window))
     {
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
         //Función propia que encapsula el procesamiento del teclado y acciones de este
         processInput(window);
 
@@ -374,12 +438,13 @@ int main()
         //Model Matrix (pasa del coordenadas del modelo a world)
 
         //View Matrix (world coords -> view coords)
-        glm::mat4 view = glm::mat4(1.0f);
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+
+        view = camera.GetViewMatrix();
 
         //Projection Matrix (view coords -> clip space coords)
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(45.0f), (float)s_width/(float)s_height, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(camera.Zoom), (float)s_width/(float)s_height, 0.1f, 100.0f);
 
 
         unsigned int matrixLoc = glGetUniformLocation(shaderProgram.ID, "view");
@@ -447,18 +512,44 @@ void processInput(GLFWwindow* window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-    
+ 
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        if((x_axis + 0.05f) < 0.5f) x_axis += 0.05f;
+        camera.ProcessKeyboard(Camera::RIGHT, deltaTime);
     if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        if((x_axis -0.05f ) > -0.5f) x_axis -= 0.05f;
+        camera.ProcessKeyboard(Camera::LEFT, deltaTime);
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        if((y_axis + 0.05f) < 0.5f) y_axis += 0.05f;
+        camera.ProcessKeyboard(Camera::FORWARD, deltaTime);
     if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        if((y_axis - 0.05f) > -0.5f) y_axis -= 0.05f;
+        camera.ProcessKeyboard(Camera::BACKWARD, deltaTime);
 
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         if(tex_interpol < 1.0f) tex_interpol += 0.01f;
     if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
         if(tex_interpol > 0.0f) tex_interpol -= 0.01f;
+}
+
+
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+
+    if(firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos;   //Invertido ya que el 0 del eje Y está arriba
+    lastX = xpos;
+    lastY = ypos;
+
+    camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    camera.ProcessMouseScroll(yoffset);
 }

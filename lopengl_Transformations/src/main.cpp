@@ -38,7 +38,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     //Crear la ventana
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Shaders", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "Transformations", NULL, NULL);
     if(window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
