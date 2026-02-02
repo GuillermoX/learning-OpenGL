@@ -45,6 +45,9 @@ float lastY = ((float)W_HEIGHT)/2.0f;
 
 bool firstMouse = true;
 
+//----- LUZ ---------
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
 
 
 //Se inicializará en el bucle de ejecución;
@@ -128,48 +131,50 @@ int main()
 
     //Vertices a dibujar
     float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+        //Vertex coords         //Normals           //Texture coords
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+                           
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,  0.0f, 0.0f,
+                           
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+                           
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+                           
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+                           
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
     };
+
 
 
     //Crear un buffer para los vertices que guarda los vertices en la memoria
@@ -183,16 +188,6 @@ int main()
             - GL_STREAM_DRAW: datos que NO cambian y se usan POCAS veces.
             - GL_DYNAMIC_DRAW: datos que SÍ cambian y se usan MUCHAS veces.*/
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-
-    unsigned int indices[] = {
-        0, 1, 2,
-        0, 2, 3
-    };
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 
 
@@ -213,11 +208,24 @@ int main()
     
     (Los atributos de los vertices se extraen del VBO asignado al GL_ARRAY_BUFFER que hay
      en el momento de llamar a esta función)*/ 
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3*sizeof(float)));
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3*sizeof(float)));
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6*sizeof(float)));
   //Se activa el atributo del vertice (pasando el identificador especificado en el shader)
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
+  glBindVertexArray(0);
+
+
+
+  //VAO de la luz
+  unsigned int lightVAO;
+  glGenVertexArrays(1, &lightVAO);
+  glBindVertexArray(lightVAO);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+  glEnableVertexAttribArray(0);
+  glBindVertexArray(0);
 
 
 //--- TEXTURAS ----
@@ -343,22 +351,6 @@ int main()
 
 
 
-    //Used to generate different cubes positions
-    glm::vec3 cubePositions[] = {
-        glm::vec3( 0.0f,  0.0f,  0.0f), 
-        glm::vec3( 2.0f,  5.0f, -15.0f), 
-        glm::vec3(-1.5f, -2.2f, -2.5f),  
-        glm::vec3(-3.8f, -2.0f, -12.3f),  
-        glm::vec3( 2.4f, -0.4f, -3.5f),  
-        glm::vec3(-1.7f,  3.0f, -7.5f),  
-        glm::vec3( 1.3f, -2.0f, -2.5f),  
-        glm::vec3( 1.5f,  2.0f, -2.5f), 
-        glm::vec3( 1.5f,  0.2f, -1.5f), 
-        glm::vec3(-1.3f,  1.0f, -1.5f)  
-    };
-
-
-
 
 //Se podrían configurar otros VAO con más VBO y configuraciones de atributos ya que es
 //en el momento de renderizar donde especificamos que VAO queremos pintar
@@ -366,6 +358,7 @@ int main()
 
 // Creación del SHADER PROGRAM con clase Shader propia
     Shader shaderProgram("../assets/shaders/shader.vert", "../assets/shaders/shader.frag");
+    Shader lightShaders("../assets/shaders/shader.vert", "../assets/shaders/light.frag");
 
 
 
@@ -382,19 +375,20 @@ int main()
         processInput(window);
 
         //Funciones de renderizado
-
-        //Cosas personalizadas para oscuridad y movimiento
-        float timeValue = glfwGetTime();
-        float darkness = (sin(timeValue)/2.0f) + 0.5f;
-        //Ubicar la variable global "darkness" que usa el fragment shader
-        int vertexColorLocation = glGetUniformLocation(shaderProgram.ID, "darkness");
-        //Es necesario Usar el Shader Program para poder actualizar los valores de sus variables
         glUseProgram(shaderProgram.ID);
-        //Actualizar la variable global del fragment shader
-        glUniform1f(vertexColorLocation, darkness);
 
-        //Actualizar valor de interpolación
-        glUniform1f(glGetUniformLocation(shaderProgram.ID, "tex_interpol"), tex_interpol);
+
+        glUniform3f(glGetUniformLocation(shaderProgram.ID, "objectColor"), 1.0f, 0.5f, 0.31f);
+        glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightColor"), 1.0f, 1.0f, 1.0f);
+
+
+        glm::vec3 rotatedLightPos = glm::vec3(glm::rotate(glm::mat4(1.0f),(float)glfwGetTime(), glm::vec3(0.0, 1.0, 0.0))
+                    * glm::vec4(lightPos, 1.0f));
+        glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"),
+                    rotatedLightPos.x, rotatedLightPos.y, rotatedLightPos.z);
+        
+        glUniform3f(glGetUniformLocation(shaderProgram.ID, "viewPos"),
+                    camera.Position.x, camera.Position.y, camera.Position.z);
 
         //Indicar que texturas usar en el fragment shader
         glActiveTexture(GL_TEXTURE0);   //(Opcional apra sampler 0)
@@ -405,45 +399,55 @@ int main()
         glUniform1i(glGetUniformLocation(shaderProgram.ID, "texture1"), 0);
         glUniform1i(glGetUniformLocation(shaderProgram.ID, "texture2"), 1);
 
+        //Interpolación de texturas
+        glUniform1f(glGetUniformLocation(shaderProgram.ID, "tex_interpol"), tex_interpol);
+
 
         //Matrices de transformación
-        //Model Matrix (pasa del coordenadas del modelo a world)
-
         //View Matrix (world coords -> view coords)
-
-
         view = camera.GetViewMatrix();
+
+        //Model Matrix (pasa del coordenadas del modelo a world)
+        glm::mat4 model = glm::mat4(1.0f);
+        //model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(1.0f, 1.0f, 0.0f));
+
 
         //Projection Matrix (view coords -> clip space coords)
         glm::mat4 projection;
         projection = glm::perspective(glm::radians(camera.Zoom), (float)s_width/(float)s_height, 0.1f, 100.0f);
 
-
-        unsigned int matrixLoc = glGetUniformLocation(shaderProgram.ID, "view");
+        unsigned int matrixLoc;
+        matrixLoc = glGetUniformLocation(shaderProgram.ID, "model");
+        glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, glm::value_ptr(model));
+        matrixLoc = glGetUniformLocation(shaderProgram.ID, "view");
         glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, glm::value_ptr(view));
         matrixLoc = glGetUniformLocation(shaderProgram.ID, "projection");
         glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, glm::value_ptr(projection));
-        matrixLoc = glGetUniformLocation(shaderProgram.ID, "model");
 
         //Pintado del fondo
-        glClearColor(121.0f/255.0f, 217.0f/255.0f, 4.0f/255.0f, 1.0f);
+        glClearColor(64.0f/255.0f, 64.0f/255.0f, 64.0f/255.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);               
 
         //Bindeo y pintado de los triangulos
         glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        glm::mat4 model;
-        for(int i = 0; i < 10; i++)
-        {
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, cubePositions[i]);
-            model = glm::rotate(model, (float)glfwGetTime()*glm::radians(20.0f*(i+1))*0.5f,
-                                 glm::vec3(1.0f, 0.3f, 0.5f));
-            model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-            glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
+        //Pintado del cubo que representa la luz
+        glUseProgram(lightShaders.ID);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, rotatedLightPos);
+        model = glm::scale(model, glm::vec3(0.2f));
+        matrixLoc = glGetUniformLocation(lightShaders.ID, "model");
+        glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, glm::value_ptr(model));
+        matrixLoc = glGetUniformLocation(lightShaders.ID, "view");
+        glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, glm::value_ptr(view));
+        matrixLoc = glGetUniformLocation(lightShaders.ID, "projection");
+        glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
  
 
@@ -458,7 +462,6 @@ int main()
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO); 
 
     //Eliminar los recursos de GLFW
     glfwTerminate();
