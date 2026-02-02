@@ -66,6 +66,10 @@ Understanding and implementing the Phong lighting model (Ambient, Diffuse and Sp
 ![BasicLighting Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/BasicLighting.png)
 
 
+### lopengl_Materials
+**(https://learnopengl.com/Lighting/Materials)**  
+Simplifying materials and lighting properties with Shader structs.
+
 ## 🛠️ Building
 
 ### Requirements
