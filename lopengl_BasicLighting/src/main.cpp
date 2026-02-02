@@ -67,7 +67,7 @@ int main()
 
 
     //Crear la ventana
-    GLFWwindow* window = glfwCreateWindow(W_WIDTH, W_HEIGHT, "CoordinateSystems", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(W_WIDTH, W_HEIGHT, "BasicLighting", NULL, NULL);
     s_height = W_HEIGHT;
     s_width = W_WIDTH;
     if(window == NULL)

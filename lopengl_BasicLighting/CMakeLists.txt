@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Nombre del proyecto (esto es interno de CMake)
-project(Transformations)
+project(BasicLighting)
 
 # -----------------------------------------------------------
 # 1. DEFINICIÓN DE VARIABLES
