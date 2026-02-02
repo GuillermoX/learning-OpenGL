@@ -54,6 +54,18 @@ Understanding coordinate systems, model, view and projection matrices to achieve
 
 ![CoordinateSystems Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/CoordinateSystems.png)
 
+
+### lopengl_Camera
+**(https://learnopengl.com/Getting-started/Camera)**  
+Creating and understanding a flying camera system.
+
+### lopengl_BasicLighting
+**(https://learnopengl.com/Lighting/Basic-Lighting)**  
+Understanding and implementing the Phong lighting model (Ambient, Diffuse and Specular lighting) using the fragment shader.
+
+![BasicLighting Screenshot](https://github.com/GuillermoX/GuillermoX/blob/main/.github/img/learning-OpenGL/BasicLighting.png)
+
+
 ## 🛠️ Building
 
 ### Requirements
